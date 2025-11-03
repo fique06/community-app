@@ -54,7 +54,7 @@ module.exports = function(grunt) {
             livereload: 35729,
             //commented added new just in
             //open:'http://<%= connect.options.hostname %>:<%= connect.options.port %>?baseApiUrl=https://demo.mifos.io'
-            open:'http://<%= connect.options.hostname %>:<%= connect.options.port %>?baseApiUrl=https://192.168.0.106:8443/fineract-provider&tenantIdentifier=default'
+            open:'http://<%= connect.options.hostname %>:<%= connect.options.port %>?baseApiUrl=https://161.35.167.155:8443/fineract-provider&tenantIdentifier=default'
         },
         livereload: {
             options: {

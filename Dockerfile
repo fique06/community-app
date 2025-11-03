@@ -1,4 +1,4 @@
-FROM timbru31/ruby-node:2.7 as builder
+FROM timbru31/ruby-node:3.3 as builder
 
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
@@ -9,9 +9,10 @@ RUN npm install -g bower
 RUN npm install -g grunt-cli
 COPY . /usr/src/app
 RUN bower --allow-root install
-RUN npm install
-RUN bundle install
-RUN grunt prod
+RUN npm install --force
+RUN gem update --system --no-document
+RUN bundle install --force
+RUN grunt prod --force
 
 FROM nginx:1.19.3
 COPY --from=builder /usr/src/app/dist/community-app /usr/share/nginx/html

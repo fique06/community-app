@@ -38,3 +38,4 @@ gems.locked
 .grunt/
 bin/
 *.cache
+app/Gruntfile.js

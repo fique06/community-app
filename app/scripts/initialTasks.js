@@ -2,7 +2,7 @@
 (function (mifosX) {
     var defineHeaders = function ($httpProvider, $translateProvider, ResourceFactoryProvider, HttpServiceProvider, $idleProvider, $keepaliveProvider, IDLE_DURATION, WARN_DURATION, KEEPALIVE_INTERVAL) {
         var mainLink = getLocation(window.location.href);
-        var baseApiUrl = "https://demo.mifos.io";
+        var baseApiUrl = "";
         var host = "";
         var portNumber = "";
         //accessing from openmf server
@@ -21,21 +21,34 @@
                 ResourceFactoryProvider.setTenantIdenetifier(domains[0]);
                 console.log("other than demo server", domains[0]);
             }
-            host = "https://" + mainLink.hostname;
+            host = "";
             console.log('hostname from mainLink = ', host);
         }
         //accessing from a file system or other servers
         else {
-            if (mainLink.hostname != "") {
-                baseApiUrl = "https://" + mainLink.hostname + (mainLink.port ? ':' + mainLink.port : '');
-            }
+	
+    // Use relative URL to hit the NGINX proxy
+		//host = ""; // <-- relative path so Angular calls /fineract-provider/... on same server
 
-            if (QueryParameters["baseApiUrl"]) {
+    		//$httpProvider.defaults.headers.common['Fineract-Platform-TenantId'] = 'default';
+    		//ResourceFactoryProvider.setTenantIdenetifier('default');
+
+    		//if (QueryParameters["tenantIdentifier"]) {
+        	//	$httpProvider.defaults.headers.common['Fineract-Platform-TenantId'] = QueryParameters["tenantIdentifier"];
+        	//	ResourceFactoryProvider.setTenantIdenetifier(QueryParameters["tenantIdentifier"]);
+    		//}
+	//}
+            //if (mainLink.hostname != "") {
+              //  baseApiUrl = "https://" + mainLink.hostname + (mainLink.port ? ':' + mainLink.port : '');
+            //}
+
+           if (QueryParameters["baseApiUrl"]) {
                 baseApiUrl = QueryParameters["baseApiUrl"];
             }
-            var queryLink = getLocation(baseApiUrl);
-            host = "https://" + queryLink.hostname + (queryLink.port ? ':' + queryLink.port : '');
-            portNumber = queryLink.port;
+            //var queryLink = getLocation(baseApiUrl);
+            //host = "https://" + queryLink.hostname + (queryLink.port ? ':' + queryLink.port : '');
+		host = baseApiUrl;
+            //portNumber = queryLink.port;
 
             $httpProvider.defaults.headers.common['Fineract-Platform-TenantId'] = 'default';
             ResourceFactoryProvider.setTenantIdenetifier('default');

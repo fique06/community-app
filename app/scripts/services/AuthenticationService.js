@@ -26,6 +26,7 @@
                 var status = response.status;
                 scope.$broadcast("UserAuthenticationFailureEvent", data, status);
             };
+	   
 
             var apiVer = '/fineract-provider/api/v1';
 
@@ -74,6 +75,17 @@
                     .then(onLoginSuccess)
                     .catch(onLoginFailure);
         		}
+			//var authHeader = "Basic " + btoa(credentials.username + ":" + credentials.password);
+			//var clientId = "community-app";      // replace with your Fineract client_id
+        		//var clientSecret = "123"; 
+			//	 var body = "username=" + encodeURIComponent(credentials.username) +
+                   		//"&password=" + encodeURIComponent(credentials.password);
+
+			//httpService.post(apiVer + "/authentication", {}, {
+    			//headers: { "Authorization": authHeader, "Content-Type": "application/x-www-form-urlencoded" }
+			//})
+			//.then(onLoginSuccess)
+			//.catch(onLoginFailure);
             };
 
             var onTwoFactorRememberMe = function (userData, tokenData) {

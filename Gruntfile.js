@@ -54,6 +54,8 @@ module.exports = function(grunt) {
             livereload: 35729,
             //commented added new just in
             //open:'http://<%= connect.options.hostname %>:<%= connect.options.port %>?baseApiUrl=https://demo.mifos.io'
+		//open:'http://<%= connect.options.hostname %>:<%= connect.options.port %>?baseApiUrl=/fineract-provider'
+
             open:'http://<%= connect.options.hostname %>:<%= connect.options.port %>?baseApiUrl=https://161.35.167.155:8443/fineract-provider&tenantIdentifier=default'
         },
         livereload: {
@@ -372,27 +374,58 @@ module.exports = function(grunt) {
       }
     },
 
+	  //sass task to compile scss to css files
+	  sass: {
+ 		 dist: {
+   			 options: {
+      				implementation: require('sass'),
+      				outputStyle: 'compressed'
+    			},
+    			files: [{
+      				expand: true,
+      				cwd: 'app/styles-dev/',
+      				src: ['**/*.scss'],
+      				dest: 'app/styles/',
+      				ext: '.css'
+    			}]
+  		},
+
+  		dev: {
+    			options: {
+      				implementation: require('sass'),
+      				outputStyle: 'expanded',
+      				sourceMap: true
+    			},
+    			files: [{
+      				expand: true,
+      				cwd: 'app/styles-dev/',
+      				src: ['**/*.scss'],
+      				dest: 'app/styles/',
+      				ext: '.css'
+    			}]
+  		}
+	},
     //compass task to compile scss to css files
-    compass: {                  // Task
-        dist: {                   // Target
-          options: {              // Target options
-            sassDir: 'app/styles-dev/',
-            cssDir: 'app/styles/',
-            environment: 'production',
-            require: 'sass-css-importer',
-            outputStyle: 'compressed',
-          }
-        },
-        dev: {                    // Another target
-          options: {
-            sassDir: 'app/styles-dev/',
-            cssDir: 'app/styles/',
-            environment: 'development',
-            require: 'sass-css-importer',
-            outputStyle: 'expanded',
-          }
-        }
-    },
+    //compass: {                  // Task
+        //dist: {                   // Target
+          //options: {              // Target options
+            //sassDir: 'app/styles-dev/',
+            //cssDir: 'app/styles/',
+            //environment: 'production',
+            //require: 'sass-css-importer',
+            //outputStyle: 'compressed',
+          //}
+        //},
+        //dev: {                    // Another target
+          //options: {
+            //sassDir: 'app/styles-dev/',
+            //cssDir: 'app/styles/',
+            //environment: 'development',
+           // require: 'sass-css-importer',
+          //  outputStyle: 'expanded',
+        //  }
+      //  }
+    //},
     //cssmin task to concatenate and minified css file while running the grunt prod
     /*cssmin: {
       target: {
@@ -420,15 +453,21 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-gh-pages')
 
   // Run development server using grunt serve
-  grunt.registerTask('serve', ['clean:server', 'copy:server', 'compass:dev', 'connect:livereload', 'watch']);
+  //grunt.registerTask('serve', ['clean:server', 'copy:server', 'compass:dev', 'connect:livereload', 'watch']);
+	grunt.registerTask('serve', ['clean:server', 'copy:server', 'sass:dev', 'connect:livereload', 'watch']);
+
 
   // Validate JavaScript and HTML files
   grunt.registerTask('validate', ['jshint:all', 'validation']);
 
   // Default task(s).
   grunt.registerTask('default', ['clean', 'jshint', 'copy:dev']);
-  grunt.registerTask('prod', ['clean:dist', 'clean:server', 'compass:dist', 'copy:prod', 'copy:tests', 'concat', 'uglify:prod', 'devcode:dist', 'hashres','replace']);
-  grunt.registerTask('dev', ['clean', 'compass:dev', 'copy:dev']);
+  grunt.registerTask('prod', ['clean:dist', 'clean:server', 'sass:dist', 'copy:prod', 'copy:tests', 'concat', 'uglify:prod', 'devcode:dist', 'hashres','replace']);
+	// grunt.registerTask('prod', ['clean:dist', 'clean:server', 'compass:dist', 'copy:prod', 'copy:tests', 'concat', 'uglify:prod', 'devcode:dist', 'hashres','replace']);
+
+  grunt.registerTask('dev', ['clean', 'sass:dev', 'copy:dev']);
+	//grunt.registerTask('dev', ['clean', 'compass:dev', 'copy:dev']);
+
   grunt.registerTask('test', ['karma']);
   grunt.registerTask('deploy', ['prod', 'gh-pages']);
 
